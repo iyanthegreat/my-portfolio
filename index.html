@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dev Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: #1e2433;
+      color: #e0e8f4;
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      border-bottom: 0.5px solid #2e3a50;
+      position: sticky;
+      top: 0;
+      background: rgba(30,36,51,0.95);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+
+    .nav-logo { font-size: 18px; font-weight: 800; letter-spacing: -0.5px; color: #e0e8f4; }
+    .nav-logo span { color: #378add; }
+
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      font-size: 13px;
+      color: #7a92b0;
+      text-decoration: none;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #e0e8f4; }
+
+    .hero {
+      padding: 5rem 2rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: #378add;
+      letter-spacing: 2px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-tag::before { content: ''; display: block; width: 24px; height: 1px; background: #378add; }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 1.5rem;
+      color: #e0e8f4;
+    }
+    .hero h1 .dim { color: #3a4a62; }
+
+    .hero-bio {
+      font-size: 16px;
+      color: #7a92b0;
+      max-width: 480px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: #378add;
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #185fa5; transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: #7a92b0;
+      border: 0.5px solid #2e3a50;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-ghost:hover { color: #e0e8f4; border-color: #7a92b0; }
+
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      border-top: 0.5px solid #252d3d;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: #3a4a62;
+      letter-spacing: 3px;
+      margin-bottom: 2rem;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px;
+    }
+
+    .skill-chip {
+      background: #252d3d;
+      border: 0.5px solid #2e3a50;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #a0b4cc;
+      font-family: 'DM Mono', monospace;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .skill-chip:hover { border-color: #378add; color: #e0e8f4; }
+    .skill-dot { width: 6px; height: 6px; border-radius: 50%; background: #378add; flex-shrink: 0; }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .project-card {
+      background: #252d3d;
+      border: 0.5px solid #2e3a50;
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+      display: block;
+      color: inherit;
+      text-decoration: none;
+    }
+    .project-card:hover { border-color: #378add; transform: translateY(-3px); }
+
+    .project-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: #3a4a62;
+      margin-bottom: 1rem;
+    }
+
+    .project-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #e0e8f4;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+
+    .project-desc {
+      font-size: 13px;
+      color: #7a92b0;
+      line-height: 1.6;
+      margin-bottom: 1.2rem;
+    }
+
+    .project-links { display: flex; gap: 10px; margin-bottom: 1rem; }
+    .project-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: #378add;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+    }
+    .project-link:hover { color: #85b7eb; }
+
+    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: #378add;
+      background: rgba(55,138,221,0.12);
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-list { display: flex; flex-direction: column; }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-bottom: 0.5px solid #252d3d;
+      align-items: start;
+    }
+
+    .exp-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: #3a4a62;
+      padding-top: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    .exp-role { font-size: 15px; font-weight: 700; color: #e0e8f4; margin-bottom: 4px; }
+    .exp-company { font-size: 13px; color: #378add; margin-bottom: 8px; font-family: 'DM Mono', monospace; }
+    .exp-detail { font-size: 13px; color: #7a92b0; line-height: 1.6; }
+
+    /* ── CONTACT ── */
+    .contact-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #252d3d;
+      border: 0.5px solid #2e3a50;
+      border-radius: 6px;
+      padding: 12px 18px;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: #7a92b0;
+      text-decoration: none;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .contact-link:hover { color: #e0e8f4; border-color: #378add; }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: #3a4a62;
+      border-top: 0.5px solid #252d3d;
+      margin-top: 2rem;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { gap: 1rem; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .hero h1 { letter-spacing: -1px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════
+       NAV — change "dev.portfolio" to your name/brand
+  ═══════════════════════════════ -->
+  <nav>
+    <div class="nav-logo">dev<span>.</span>portfolio</div>
+    <div class="nav-links">
+      <a href="#skills">skills</a>
+      <a href="#projects">projects</a>
+      <a href="#experience">experience</a>
+      <a href="#contact">contact</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════
+       HERO — change role, heading, bio, your name
+  ═══════════════════════════════ -->
+  <div class="hero">
+    <div class="hero-tag">WEB DEVELOPER</div>
+    <h1>Building <span class="dim">things</span><br>for the web.</h1>
+    <p class="hero-bio">
+      Hi, I'm <strong style="color:#e0e8f4"><e>Jor Ian I. Fajardo</e></strong>. I craft clean, functional,
+      and fast web experiences. Open to freelance &amp; full-time roles.
+    </p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-primary">✦ View my work</a>
+      <a href="Fajardo - CV.pdf" class="btn-ghost">Download CV</a>
+      <!-- Change href above to your CV file, e.g. href="cv.pdf" -->
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       SKILLS — add or remove .skill-chip divs
+  ═══════════════════════════════ -->
+  <div class="section" id="skills">
+    <div class="section-label">// SKILLS</div>
+    <div class="skills-grid">
+      <div class="skill-chip"><span class="skill-dot"></span>HTML &amp; CSS</div>
+      <div class="skill-chip"><span class="skill-dot"></span>JavaScript</div>
+      <div class="skill-chip"><span class="skill-dot"></span>React</div>
+      <div class="skill-chip"><span class="skill-dot"></span>Node.js</div>
+      <div class="skill-chip"><span class="skill-dot"></span>Data Entry</div>
+      <div class="skill-chip"><span class="skill-dot"></span>Email & Calendar Management</div>
+      <div class="skill-chip"><span class="skill-dot"></span>Customer Support</div>
+      <div class="skill-chip"><span class="skill-dot"></span>Document Preparation (Google Workspace / MS Office)</div>
+      <div class="skill-chip"><span class="skill-dot"></span>Tailwind CSS</div>
+      <div class="skill-chip"><span class="skill-dot"></span>SQL</div>
+      <div class="skill-chip"><span class="skill-dot"></span>Figma</div>
+      <div class="skill-chip"><span class="skill-dot"></span>Canva</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       PROJECTS
+       - Change title, description
+       - Set href on .project-link to your live URL and GitHub URL
+       - Update .tag spans with your tech stack
+       - Copy a whole .project-card block to add more projects
+  ═══════════════════════════════ -->
+  <div class="section" id="projects">
+    <div class="section-label">// PROJECTS</div>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-num">01</div>
+        <div class="project-title">Kilawan – Food & Beverage Website</div>
+        <div class="project-desc">A responsive business website with an interactive menu and ordering system,
+      designed with modern UI/UX principles.</div>
+        <div class="project-links">
+          <a href="https://your-live-link.com" target="_blank" class="project-link">↗ Live Demo</a>
+          <a href="https://github.com/yourusername/repo" target="_blank" class="project-link">↗ GitHub</a>
+        </div>
+        <div class="project-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">02</div>
+        <div class="project-title">Personal Portfolio Website</div>
+        <div class="project-desc">Created a personal portfolio website to showcase skills, projects, and contact information.</div>
+        <div class="project-links">
+          <a href="https://your-live-link.com" target="_blank" class="project-link">↗ Live Demo</a>
+          <a href="https://github.com/yourusername/repo" target="_blank" class="project-link">↗ GitHub</a>
+        </div>
+        <div class="project-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JS</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">03</div>
+        <div class="project-title">Project Name</div>
+        <div class="project-desc">Describe what this project does and the problem it solves in 1-2 sentences.</div>
+        <div class="project-links">
+          <a href="https://your-live-link.com" target="_blank" class="project-link">↗ Live Demo</a>
+          <a href="https://github.com/yourusername/repo" target="_blank" class="project-link">↗ GitHub</a>
+        </div>
+        <div class="project-tags">
+          <span class="tag">REACT</span>
+          <span class="tag">REST API</span>
+          <span class="tag">CHART.JS</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       EXPERIENCE
+       - Change dates, role, company, description
+       - Copy a .exp-item block to add more entries
+       - Delete this whole section if not needed
+  ═══════════════════════════════ -->
+  <div class="section" id="experience">
+    <div class="section-label">// EXPERIENCE</div>
+    <div class="exp-list">
+
+      <div class="exp-item">
+        <div class="exp-date">2023 — PRESENT</div>
+        <div>
+          <div class="exp-role">Frontend Developer (Academic & Personal Projects)</div>
+          <div class="exp-detail"><li>Created multiple responsive web projects, including business and portfolio websites</li><li>Practiced continuous improvement by refining UI/UX and adding new features</li><li>Ensured mobile responsiveness and cross-device compatibility</li></div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-date">2024 — 2025</div>
+        <div>
+          <div class="exp-role">Virtual Assistant & Data Entry Support</div>
+          <div class="exp-company">Freelance</div>
+          <div class="exp-detail"><li>Managed scheduling tasks, arranged meetings, and coordinated communication
+between clients and their customers</li><li>Assisted client with administrative tasks such as email sorting, file organization, and
+preparing documents.</li><li>Provided customer support through email and chat channels.</li></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       CONTACT — change email, GitHub URL, LinkedIn URL
+  ═══════════════════════════════ -->
+  <div class="section" id="contact">
+    <div class="section-label">// CONTACT</div>
+    <p style="font-size:15px; color:#7a92b0; margin-bottom:1.5rem; line-height:1.7;">
+      Open to new opportunities — feel free to reach out.
+    </p>
+    <div class="contact-row">
+      <a href="mailto:email@example.com" class="contact-link">✉ iyanfajardo05@gmail.com</a>
+      <a href="https://github.com/yourusername" target="_blank" class="contact-link">⌗ GitHub</a>
+      <a href="https://linkedin.com/in/yourusername" target="_blank" class="contact-link">⌗ www.linkedin.com/in/ian-fajardo1208</a>
+    </div>
+  </div>
+
+  <!-- Change "your name" to your actual name -->
+  <footer>crafted with intention — Jor Ian © 2026</footer>
+
+</body>
+</html>
